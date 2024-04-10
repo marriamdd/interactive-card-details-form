@@ -1,3 +1,4 @@
+import FormContent from "./components/FormContent";
 import Header from "./components/Header";
 import GlobalStyles from "./globalStyles/GlobalStyles";
 
@@ -6,6 +7,7 @@ function App() {
     <>
       <GlobalStyles />
       <Header />
+      <FormContent />
     </>
   );
 }

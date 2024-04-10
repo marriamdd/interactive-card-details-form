@@ -85,7 +85,6 @@ const FrontOfCard = styled.div`
   }
   & > div h2 {
     font-size: 18px;
-
     font-weight: 500;
     padding-top: 1.5rem;
     padding-inline: 2rem;
@@ -97,9 +96,7 @@ const FrontOfCard = styled.div`
     padding-inline: 2rem;
     span {
       font-size: 9px;
-
       font-weight: 500;
-
       letter-spacing: 1.286px;
       text-transform: uppercase;
     }
