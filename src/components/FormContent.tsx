@@ -192,7 +192,6 @@ export default function FormContent({
               value={userInformation.mm}
               onChange={handleChange}
             />
-
             <input
               style={{
                 border: error.mm.error

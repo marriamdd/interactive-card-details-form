@@ -1,5 +1,6 @@
 import FormContent from "./components/FormContent";
 import Header from "./components/Header";
+import ThanksGraph from "./components/ThanksGraph";
 import GlobalStyles from "./globalStyles/GlobalStyles";
 import { useState } from "react";
 function App() {
@@ -26,6 +27,7 @@ function App() {
         userInformation={userInformation}
         setUserInformation={setUserInformation}
       />
+      <ThanksGraph />
     </>
   );
 }
