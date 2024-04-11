@@ -1,43 +1,55 @@
 import styled from "styled-components";
+import { FormEvent } from "react";
+
 export default function FormContent() {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("l");
+  };
+
   return (
     <FormContainer>
-      <PersonalInfoContainer>
-        <label htmlFor="UserName">Cardholder Name</label>
-        <input id="userName" type="text" placeholder="e.g. Jane Appleseed" />
-      </PersonalInfoContainer>
-      <PersonalInfoContainer>
-        <label htmlFor="CardNumber">Card Number</label>
-        <input
-          id="CardNumber"
-          type="text"
-          placeholder="e.g. 1234 5678 9123 0000"
-        />
-      </PersonalInfoContainer>
-      <AdditionalPersonInfo>
-        <div className="labelDiv">
-          <label htmlFor="date">Exp. Date (MM/YY)</label>
-          <label htmlFor="cvc">CVC</label>
-        </div>
-        <div className="additionalInputDiv">
-          <input className="mm_yy" id="date" type="text" placeholder="MM" />
+      <form onSubmit={handleSubmit}>
+        <PersonalInfoContainer>
+          <label htmlFor="UserName">Cardholder Name</label>
+          <input id="userName" type="text" placeholder="e.g. Jane Appleseed" />
+        </PersonalInfoContainer>
+        <PersonalInfoContainer>
+          <label htmlFor="CardNumber">Card Number</label>
+          <input
+            id="CardNumber"
+            type="text"
+            placeholder="e.g. 1234 5678 9123 0000"
+          />
+        </PersonalInfoContainer>
+        <AdditionalPersonInfo>
+          <div className="labelDiv">
+            <label htmlFor="date">Exp. Date (MM/YY)</label>
+            <label htmlFor="cvc">CVC</label>
+          </div>
+          <div className="additionalInputDiv">
+            <input className="mm_yy" id="date" type="text" placeholder="MM" />
 
-          <input className="mm_yy" type="text" placeholder="YY" />
+            <input className="mm_yy" type="text" placeholder="YY" />
 
-          <input id="cvc" type="text" placeholder="e.g. 123" />
-        </div>
-      </AdditionalPersonInfo>
-      <button type="submit">Confirm</button>
+            <input id="cvc" type="text" placeholder="e.g. 123" />
+          </div>
+        </AdditionalPersonInfo>
+        <button type="submit">Confirm</button>
+      </form>
     </FormContainer>
   );
 }
 
 const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10rem;
-  gap: 1.5rem;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10rem;
+    gap: 1.5rem;
+  }
+
   label {
     color: var(--Deep-Violet, #21092f);
     font-size: 1.2rem;
