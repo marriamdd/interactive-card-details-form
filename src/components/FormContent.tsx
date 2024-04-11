@@ -89,8 +89,34 @@ export default function FormContent() {
   console.log(error);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    if (name === "cardNumber") {
+      let income = value.replace(/\s/g, "");
+      console.log(income);
+
+      if (income.length === 17) {
+        return;
+      }
+
+      if (income.length % 4 === 0) {
+        setUserInformation({ ...userInformation, cardNumber: `${value} ` });
+        return;
+      }
+    }
+
+    if (name == "mm" || name == "yy") {
+      let income = value.replace(/\s/g, "");
+      if (income.length === 3) {
+        return;
+      }
+    }
+    if (name == "cvc") {
+      let income = value.replace(/\s/g, "");
+      if (income.length === 4) {
+        return;
+      }
+    }
     setUserInformation({ ...userInformation, [name]: value });
-    const target = event.target as HTMLInputElement;
   };
 
   return (
