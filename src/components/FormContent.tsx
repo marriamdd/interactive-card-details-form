@@ -1,25 +1,52 @@
 import styled from "styled-components";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function FormContent() {
+  interface IUserInfo {
+    userName: string;
+    cardNumber: string;
+    mm: string;
+    yy: string;
+    cvc: string;
+  }
+  const [userInformation, setUserInformation] = useState<IUserInfo>({
+    userName: "",
+    cardNumber: "",
+    mm: "",
+    yy: "",
+    cvc: "",
+  });
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("l");
   };
-
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserInformation({ ...userInformation, [name]: value });
+  };
+  console.log(userInformation);
   return (
     <FormContainer>
       <form onSubmit={handleSubmit}>
         <PersonalInfoContainer>
           <label htmlFor="UserName">Cardholder Name</label>
-          <input id="userName" type="text" placeholder="e.g. Jane Appleseed" />
+          <input
+            name="userName"
+            id="userName"
+            type="text"
+            placeholder="e.g. Jane Appleseed"
+            value={userInformation.userName}
+            onChange={handleChange}
+          />
         </PersonalInfoContainer>
         <PersonalInfoContainer>
           <label htmlFor="CardNumber">Card Number</label>
           <input
             id="CardNumber"
+            name="cardNumber"
             type="text"
             placeholder="e.g. 1234 5678 9123 0000"
+            value={userInformation.cardNumber}
+            onChange={handleChange}
           />
         </PersonalInfoContainer>
         <AdditionalPersonInfo>
@@ -28,11 +55,33 @@ export default function FormContent() {
             <label htmlFor="cvc">CVC</label>
           </div>
           <div className="additionalInputDiv">
-            <input className="mm_yy" id="date" type="text" placeholder="MM" />
+            <input
+              name="mm"
+              className="mm_yy"
+              id="date"
+              type="text"
+              placeholder="MM"
+              value={userInformation.mm}
+              onChange={handleChange}
+            />
 
-            <input className="mm_yy" type="text" placeholder="YY" />
+            <input
+              name="yy"
+              className="mm_yy"
+              type="text"
+              placeholder="YY"
+              value={userInformation.yy}
+              onChange={handleChange}
+            />
 
-            <input id="cvc" type="text" placeholder="e.g. 123" />
+            <input
+              name="cvc"
+              id="cvc"
+              type="text"
+              placeholder="e.g. 123"
+              value={userInformation.cvc}
+              onChange={handleChange}
+            />
           </div>
         </AdditionalPersonInfo>
         <button type="submit">Confirm</button>
