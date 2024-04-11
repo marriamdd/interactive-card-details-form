@@ -39,7 +39,13 @@ export default function FormContent({
       message: "Can’t be blank",
     },
   });
-  console.log(error);
+  const ok = Object.values(error);
+  if (ok.every((fieldError) => fieldError.error === false)) {
+    console.log("kj");
+  }
+
+  console.log("error values", ok);
+  console.log("errors", error);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const mmOryyError =
@@ -48,15 +54,6 @@ export default function FormContent({
       isNaN(Number(userInformation.mm)) ||
       isNaN(Number(userInformation.mm));
 
-    // if (globalError) {
-    //   setUserInformation({
-    //     userName: "",
-    //     cardNumber: "",
-    //     mm: "",
-    //     yy: "",
-    //     cvc: "",
-    //   });
-    // }
     setError({
       ...error,
       userName: {
@@ -80,8 +77,8 @@ export default function FormContent({
       },
     });
   };
-  const cvcref = useRef(null);
-  const yyref = useRef(null);
+  const cvcref = useRef<HTMLInputElement>(null);
+  const yyref = useRef<HTMLInputElement>(null);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -99,11 +96,21 @@ export default function FormContent({
       }
     }
 
-    if (name == "mm" || name == "yy") {
+    if (name == "mm") {
       let income = value.replace(/\s/g, "");
 
       if (income.length === 2) {
         yyref.current?.focus();
+        setUserInformation({ ...userInformation, [name]: value });
+        return;
+      }
+    }
+
+    if (name == "yy") {
+      let income = value.replace(/\s/g, "");
+
+      if (income.length === 2) {
+        cvcref.current?.focus();
         setUserInformation({ ...userInformation, [name]: value });
         return;
       }
