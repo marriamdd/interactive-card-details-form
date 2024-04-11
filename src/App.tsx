@@ -1,7 +1,7 @@
 import FormContent from "./components/FormContent";
 import Header from "./components/Header";
 import GlobalStyles from "./globalStyles/GlobalStyles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
   interface IUserInfo {
     userName: string;
@@ -17,7 +17,15 @@ function App() {
     yy: "",
     cvc: "",
   });
-
+  // useEffect(() => {
+  //   setUserInformation({
+  //     userName: "",
+  //     cardNumber: "0000 0000 0000 0000",
+  //     mm: "00",
+  //     yy: "00",
+  //     cvc: "000",
+  //   });
+  // }, []);
   return (
     <>
       <GlobalStyles />

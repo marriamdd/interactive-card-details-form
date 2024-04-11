@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 interface IUserInfo {
   userName: string;
@@ -16,16 +17,28 @@ export default function Header({
       <BackOfCard>
         <div className="blackRectangle"></div>
         <div className="greyRectangle">
-          <p>{userInformation.cvc}</p>
+          <p>{userInformation.cvc ? userInformation.cvc : "000"}</p>
         </div>
       </BackOfCard>
       <FrontOfCard>
         <img src="public/images/card-logo.svg" alt="card-logo" />
         <div>
-          <h2>{userInformation.cardNumber}</h2>
+          <h2>
+            {!userInformation.cardNumber
+              ? "0000 0000 0000 0000 "
+              : userInformation.cardNumber}
+          </h2>
           <div>
-            <span>{userInformation.userName}</span>
-            <span>{`${userInformation.mm} / ${userInformation.yy}`}</span>
+            <span>
+              {userInformation.userName
+                ? userInformation.userName
+                : "JANE APPLESEED"}
+            </span>
+            <span>
+              {userInformation.mm || userInformation.yy
+                ? `${userInformation.mm} / ${userInformation.yy}`
+                : "00/00"}
+            </span>
           </div>
         </div>
       </FrontOfCard>
