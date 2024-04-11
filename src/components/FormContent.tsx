@@ -212,6 +212,7 @@ const FormContainer = styled.div`
     font-weight: 500;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
+    cursor: pointer;
   }
   input {
     height: 4rem;
@@ -219,6 +220,10 @@ const FormContainer = styled.div`
     border: 1px solid var(--Light-Grey, #dfdee0);
     background: var(--White, #fff);
     padding-left: 2.5rem;
+    cursor: pointer;
+  }
+  input:hover {
+    border: 1px solid var(--Gradient, #6348fe);
   }
   button {
     width: 32.7rem;
@@ -230,6 +235,7 @@ const FormContainer = styled.div`
     font-weight: 500;
     margin-top: 1rem;
     margin-bottom: 4rem;
+    cursor: pointer;
   }
 `;
 const PersonalInfoContainer = styled.div`
