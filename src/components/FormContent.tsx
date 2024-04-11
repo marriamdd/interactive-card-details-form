@@ -39,7 +39,7 @@ export default function FormContent({
       message: "Can’t be blank",
     },
   });
-
+  console.log(error);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const mmOryyError =
@@ -48,19 +48,15 @@ export default function FormContent({
       isNaN(Number(userInformation.mm)) ||
       isNaN(Number(userInformation.mm));
 
-    const globalError = Object.values(error).every(
-      (fieldError) => fieldError.error == false
-    );
-    console.log(globalError);
-    if (globalError) {
-      setUserInformation({
-        userName: "",
-        cardNumber: "",
-        mm: "",
-        yy: "",
-        cvc: "",
-      });
-    }
+    // if (globalError) {
+    //   setUserInformation({
+    //     userName: "",
+    //     cardNumber: "",
+    //     mm: "",
+    //     yy: "",
+    //     cvc: "",
+    //   });
+    // }
     setError({
       ...error,
       userName: {
@@ -91,7 +87,6 @@ export default function FormContent({
 
     if (name === "cardNumber") {
       let income = value.replace(/\s/g, "");
-      console.log(income);
 
       if (income.length === 17) {
         return;
@@ -106,8 +101,10 @@ export default function FormContent({
 
     if (name == "mm" || name == "yy") {
       let income = value.replace(/\s/g, "");
-      if (income.length === 3) {
-        // yyref.current?.click();
+
+      if (income.length === 2) {
+        yyref.current?.focus();
+        setUserInformation({ ...userInformation, [name]: value });
         return;
       }
     }
@@ -121,11 +118,16 @@ export default function FormContent({
   };
 
   return (
-    <FormContainer>
+    <FormContainer error={error}>
       <form onSubmit={handleSubmit}>
         <PersonalInfoContainer>
           <label htmlFor="UserName">Cardholder Name</label>
           <input
+            style={{
+              border: error.userName.error
+                ? "solid 1px red"
+                : "1px solid var(--Light-Grey, #dfdee0)",
+            }}
             name="userName"
             id="userName"
             type="text"
@@ -138,6 +140,11 @@ export default function FormContent({
         <PersonalInfoContainer>
           <label htmlFor="CardNumber">Card Number</label>
           <input
+            style={{
+              border: error.cardNumber.error
+                ? "solid 1px red"
+                : "1px solid var(--Light-Grey, #dfdee0)",
+            }}
             id="CardNumber"
             name="cardNumber"
             type="text"
@@ -156,6 +163,11 @@ export default function FormContent({
           </div>
           <div className="additionalInputDiv">
             <input
+              style={{
+                border: error.mm.error
+                  ? "solid 1px red"
+                  : "1px solid var(--Light-Grey, #dfdee0)",
+              }}
               name="mm"
               className="mm_yy"
               id="date"
@@ -166,6 +178,11 @@ export default function FormContent({
             />
 
             <input
+              style={{
+                border: error.mm.error
+                  ? "solid 1px red"
+                  : "1px solid var(--Light-Grey, #dfdee0)",
+              }}
               name="yy"
               className="mm_yy"
               type="text"
@@ -176,6 +193,11 @@ export default function FormContent({
             />
 
             <input
+              style={{
+                border: error.cvc.error
+                  ? "solid 1px red"
+                  : "1px solid var(--Light-Grey, #dfdee0)",
+              }}
               name="cvc"
               id="cvc"
               type="text"
@@ -217,7 +239,7 @@ const FormContainer = styled.div`
   input {
     height: 4rem;
     border-radius: 0.8rem;
-    border: 1px solid var(--Light-Grey, #dfdee0);
+    /* border: 1px solid var(--Light-Grey, #dfdee0); */
     background: var(--White, #fff);
     padding-left: 2.5rem;
     cursor: pointer;
@@ -242,6 +264,7 @@ const PersonalInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
   & > input {
     width: 32.7rem;
   }
