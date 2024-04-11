@@ -104,18 +104,6 @@ export default function FormContent() {
       }
     }
 
-    if (name == "mm" || name == "yy") {
-      let income = value.replace(/\s/g, "");
-      if (income.length === 3) {
-        return;
-      }
-    }
-    if (name == "cvc") {
-      let income = value.replace(/\s/g, "");
-      if (income.length === 4) {
-        return;
-      }
-    }
     setUserInformation({ ...userInformation, [name]: value });
   };
 
