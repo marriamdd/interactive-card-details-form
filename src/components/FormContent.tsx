@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useRef } from "react";
 interface IUserInfo {
   userName: string;
   cardNumber: string;
@@ -84,7 +84,8 @@ export default function FormContent({
       },
     });
   };
-  console.log(error);
+  const cvcref = useRef(null);
+  const yyref = useRef(null);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -98,6 +99,7 @@ export default function FormContent({
 
       if (income.length % 4 === 0) {
         setUserInformation({ ...userInformation, cardNumber: `${value} ` });
+
         return;
       }
     }
@@ -105,6 +107,7 @@ export default function FormContent({
     if (name == "mm" || name == "yy") {
       let income = value.replace(/\s/g, "");
       if (income.length === 3) {
+        // yyref.current?.click();
         return;
       }
     }
@@ -130,6 +133,7 @@ export default function FormContent({
             value={userInformation.userName}
             onChange={handleChange}
           />
+          {error.userName.error && <ErrorP>{error.userName.message}</ErrorP>}
         </PersonalInfoContainer>
         <PersonalInfoContainer>
           <label htmlFor="CardNumber">Card Number</label>
@@ -141,6 +145,9 @@ export default function FormContent({
             value={userInformation.cardNumber}
             onChange={handleChange}
           />
+          {error.cardNumber.error && (
+            <ErrorP>{error.cardNumber.message}</ErrorP>
+          )}
         </PersonalInfoContainer>
         <AdditionalPersonInfo>
           <div className="labelDiv">
@@ -165,6 +172,7 @@ export default function FormContent({
               placeholder="YY"
               value={userInformation.yy}
               onChange={handleChange}
+              ref={yyref}
             />
 
             <input
@@ -174,7 +182,13 @@ export default function FormContent({
               placeholder="e.g. 123"
               value={userInformation.cvc}
               onChange={handleChange}
+              ref={cvcref}
             />
+          </div>
+          <div style={{ display: "flex", gap: "10rem" }}>
+            {" "}
+            {error.mm.error && <ErrorP>{error.mm.message}</ErrorP>}
+            {error.cvc.error && <ErrorP>{error.cvc.message}</ErrorP>}
           </div>
         </AdditionalPersonInfo>
         <button type="submit">Confirm</button>
@@ -204,7 +218,7 @@ const FormContainer = styled.div`
     border-radius: 0.8rem;
     border: 1px solid var(--Light-Grey, #dfdee0);
     background: var(--White, #fff);
-    padding-left: 2rem;
+    padding-left: 2.5rem;
   }
   button {
     width: 32.7rem;
@@ -215,6 +229,7 @@ const FormContainer = styled.div`
     font-size: 1.8rem;
     font-weight: 500;
     margin-top: 1rem;
+    margin-bottom: 4rem;
   }
 `;
 const PersonalInfoContainer = styled.div`
@@ -242,7 +257,17 @@ const AdditionalPersonInfo = styled.div`
       width: 7.2rem;
     }
     #cvc {
+      padding-left: 3rem;
       width: 16.4rem;
     }
   }
+`;
+const ErrorP = styled.p`
+  color: var(--Red, #ff5050);
+  margin: 0;
+  font-size: 1.2rem;
+  height: 3px;
+  font-weight: 500;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
 `;
