@@ -19,15 +19,29 @@ function App() {
     cvc: "",
   });
 
+  const [error, setError] = useState({ first: "first" });
+  console.log(error);
   return (
     <>
       <GlobalStyles />
       <Header userInformation={userInformation} />
-      <FormContent
+      {Object.keys(error).length === 0 ? (
+        <ThanksGraph />
+      ) : (
+        <FormContent
+          userInformation={userInformation}
+          setUserInformation={setUserInformation}
+          error={error}
+          setError={setError}
+        />
+      )}
+      {/* <FormContent
         userInformation={userInformation}
         setUserInformation={setUserInformation}
-      />
-      <ThanksGraph />
+        error={error}
+        setError={setError}
+      /> */}
+      {/* <ThanksGraph /> */}
     </>
   );
 }

@@ -7,85 +7,59 @@ interface IUserInfo {
   yy: string;
   cvc: string;
 }
+
+interface IValidationErrors {
+  first?: string;
+  userName?: string;
+  cardNumber?: string;
+  mm?: string;
+  yy?: string;
+  cvc?: string;
+}
 export default function FormContent({
   userInformation,
   setUserInformation,
+  setError,
+  error,
 }: {
+  setError: (error: IValidationErrors) => void;
+  error: IValidationErrors;
   userInformation: IUserInfo;
   setUserInformation: (information: IUserInfo) => void;
 }) {
-  interface IErrorState {
-    [key: string]: {
-      error: boolean;
-      message: string;
-    };
-  }
-  const [error, setError] = useState<IErrorState>({
-    userName: {
-      error: false,
-      message: "Can’t be blank",
-    },
-    cardNumber: {
-      error: false,
-      message: "Wrong format, numbers only",
-    },
-    mm: {
-      error: false,
-      message: "Can’t be blank",
-    },
-
-    cvc: {
-      error: false,
-      message: "Can’t be blank",
-    },
-  });
-
-  const ok = Object.values(error);
-  useEffect(() => {
-    if (ok.every((fieldError) => fieldError.error === false)) {
-      setUserInformation({
-        userName: "",
-        cardNumber: "",
-        mm: "",
-        yy: "",
-        cvc: "",
-      });
-    }
-  }, [error]);
-
-  console.log("error values", ok);
-  console.log("errors", error);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const mmOryyError =
+
+    const validationErrors: IValidationErrors = {};
+
+    if (userInformation.userName === "") {
+      validationErrors.userName = "Can’t be blank";
+    }
+
+    if (
+      userInformation.cardNumber === "" ||
+      isNaN(Number(userInformation.cardNumber))
+    ) {
+      validationErrors.cardNumber = "Can’t be blank";
+    }
+
+    if (userInformation.cvc === "" || isNaN(Number(userInformation.cvc))) {
+      validationErrors.cvc = "Can’t be blank";
+    }
+
+    if (
       userInformation.mm === "" ||
       userInformation.yy === "" ||
       isNaN(Number(userInformation.mm)) ||
-      isNaN(Number(userInformation.mm));
+      isNaN(Number(userInformation.mm))
+    ) {
+      validationErrors.mm = "Can’t be blank";
+    }
 
-    setError({
-      ...error,
-      userName: {
-        ...error.userName,
-        error: userInformation.userName === "",
-      },
-
-      cardNumber: {
-        ...error.cardNumber,
-        error:
-          userInformation.cardNumber === "" ||
-          isNaN(Number(userInformation.cardNumber)),
-      },
-      mm: {
-        ...error.mm,
-        error: mmOryyError,
-      },
-      cvc: {
-        ...error.cvc,
-        error: userInformation.cvc === "" || isNaN(Number(userInformation.cvc)),
-      },
-    });
+    console.log(validationErrors);
+    setError(validationErrors);
   };
+
   const cvcref = useRef<HTMLInputElement>(null);
   const yyref = useRef<HTMLInputElement>(null);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +88,6 @@ export default function FormContent({
         return;
       }
     }
-
     if (name == "yy") {
       let income = value.replace(/\s/g, "");
 
@@ -134,16 +107,11 @@ export default function FormContent({
   };
 
   return (
-    <FormContainer error={error}>
+    <FormContainer>
       <form onSubmit={handleSubmit}>
         <PersonalInfoContainer>
           <label htmlFor="UserName">Cardholder Name</label>
           <input
-            style={{
-              border: error.userName.error
-                ? "solid 1px red"
-                : "1px solid var(--Light-Grey, #dfdee0)",
-            }}
             name="userName"
             id="userName"
             type="text"
@@ -151,16 +119,11 @@ export default function FormContent({
             value={userInformation.userName}
             onChange={handleChange}
           />
-          {error.userName.error && <ErrorP>{error.userName.message}</ErrorP>}
+          {error.userName && <ErrorMessage>{error.userName}</ErrorMessage>}
         </PersonalInfoContainer>
         <PersonalInfoContainer>
           <label htmlFor="CardNumber">Card Number</label>
           <input
-            style={{
-              border: error.cardNumber.error
-                ? "solid 1px red"
-                : "1px solid var(--Light-Grey, #dfdee0)",
-            }}
             id="CardNumber"
             name="cardNumber"
             type="text"
@@ -168,9 +131,7 @@ export default function FormContent({
             value={userInformation.cardNumber}
             onChange={handleChange}
           />
-          {error.cardNumber.error && (
-            <ErrorP>{error.cardNumber.message}</ErrorP>
-          )}
+          {error.cardNumber && <ErrorMessage>{error.cardNumber}</ErrorMessage>}
         </PersonalInfoContainer>
         <AdditionalPersonInfo>
           <div className="labelDiv">
@@ -179,11 +140,6 @@ export default function FormContent({
           </div>
           <div className="additionalInputDiv">
             <input
-              style={{
-                border: error.mm.error
-                  ? "solid 1px red"
-                  : "1px solid var(--Light-Grey, #dfdee0)",
-              }}
               name="mm"
               className="mm_yy"
               id="date"
@@ -192,12 +148,8 @@ export default function FormContent({
               value={userInformation.mm}
               onChange={handleChange}
             />
+
             <input
-              style={{
-                border: error.mm.error
-                  ? "solid 1px red"
-                  : "1px solid var(--Light-Grey, #dfdee0)",
-              }}
               name="yy"
               className="mm_yy"
               type="text"
@@ -208,11 +160,6 @@ export default function FormContent({
             />
 
             <input
-              style={{
-                border: error.cvc.error
-                  ? "solid 1px red"
-                  : "1px solid var(--Light-Grey, #dfdee0)",
-              }}
               name="cvc"
               id="cvc"
               type="text"
@@ -222,11 +169,13 @@ export default function FormContent({
               ref={cvcref}
             />
           </div>
-          <div style={{ display: "flex", gap: "10rem" }}>
+          <div className="mm_cvcErrorDiv">
             {" "}
-            {error.mm.error && <ErrorP>{error.mm.message}</ErrorP>}
-            {error.cvc.error && <ErrorP>{error.cvc.message}</ErrorP>}
+            {error.mm && <ErrorMessage>{error.mm}</ErrorMessage>}
+            {error.cvc && <ErrorMessage>{error.cvc}</ErrorMessage>}
           </div>
+
+          <div style={{ display: "flex", gap: "10rem" }}></div>
         </AdditionalPersonInfo>
         <button type="submit">Confirm</button>
       </form>
@@ -242,7 +191,10 @@ const FormContainer = styled.div`
     margin-top: 10rem;
     gap: 1.5rem;
   }
-
+  .mm_cvcErrorDiv {
+    display: flex;
+    gap: 10rem;
+  }
   label {
     color: var(--Deep-Violet, #21092f);
     font-size: 1.2rem;
@@ -306,7 +258,7 @@ const AdditionalPersonInfo = styled.div`
     }
   }
 `;
-const ErrorP = styled.p`
+const ErrorMessage = styled.p`
   color: var(--Red, #ff5050);
   margin: 0;
   font-size: 1.2rem;
