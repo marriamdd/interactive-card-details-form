@@ -1,21 +1,19 @@
 import styled from "styled-components";
 import { ChangeEvent, FormEvent, useState } from "react";
-
-export default function FormContent() {
-  interface IUserInfo {
-    userName: string;
-    cardNumber: string;
-    mm: string;
-    yy: string;
-    cvc: string;
-  }
-  const [userInformation, setUserInformation] = useState<IUserInfo>({
-    userName: "",
-    cardNumber: "",
-    mm: "",
-    yy: "",
-    cvc: "",
-  });
+interface IUserInfo {
+  userName: string;
+  cardNumber: string;
+  mm: string;
+  yy: string;
+  cvc: string;
+}
+export default function FormContent({
+  userInformation,
+  setUserInformation,
+}: {
+  userInformation: IUserInfo;
+  setUserInformation: (information: IUserInfo) => void;
+}) {
   interface IErrorState {
     [key: string]: {
       error: boolean;
@@ -104,6 +102,18 @@ export default function FormContent() {
       }
     }
 
+    if (name == "mm" || name == "yy") {
+      let income = value.replace(/\s/g, "");
+      if (income.length === 3) {
+        return;
+      }
+    }
+    if (name == "cvc") {
+      let income = value.replace(/\s/g, "");
+      if (income.length === 4) {
+        return;
+      }
+    }
     setUserInformation({ ...userInformation, [name]: value });
   };
 

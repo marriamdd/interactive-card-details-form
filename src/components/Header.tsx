@@ -1,21 +1,31 @@
 import styled from "styled-components";
-
-export default function Header() {
+interface IUserInfo {
+  userName: string;
+  cardNumber: string;
+  mm: string;
+  yy: string;
+  cvc: string;
+}
+export default function Header({
+  userInformation,
+}: {
+  userInformation: IUserInfo;
+}) {
   return (
     <HeaderContainer>
       <BackOfCard>
         <div className="blackRectangle"></div>
         <div className="greyRectangle">
-          <p>123</p>
+          <p>{userInformation.cvc}</p>
         </div>
       </BackOfCard>
       <FrontOfCard>
         <img src="public/images/card-logo.svg" alt="card-logo" />
         <div>
-          <h2>9591 6489 6389 1011</h2>
+          <h2>{userInformation.cardNumber}</h2>
           <div>
-            <span>felicia leire</span>
-            <span>09/26</span>
+            <span>{userInformation.userName}</span>
+            <span>{`${userInformation.mm} / ${userInformation.yy}`}</span>
           </div>
         </div>
       </FrontOfCard>
