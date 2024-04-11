@@ -16,14 +16,83 @@ export default function FormContent() {
     yy: "",
     cvc: "",
   });
+  interface IErrorState {
+    [key: string]: {
+      error: boolean;
+      message: string;
+    };
+  }
+  const [error, setError] = useState<IErrorState>({
+    userName: {
+      error: false,
+      message: "Can’t be blank",
+    },
+    cardNumber: {
+      error: false,
+      message: "Wrong format, numbers only",
+    },
+    mm: {
+      error: false,
+      message: "Can’t be blank",
+    },
+
+    cvc: {
+      error: false,
+      message: "Can’t be blank",
+    },
+  });
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const mmOryyError =
+      userInformation.mm === "" ||
+      userInformation.yy === "" ||
+      isNaN(Number(userInformation.mm)) ||
+      isNaN(Number(userInformation.mm));
+
+    const globalError = Object.values(error).every(
+      (fieldError) => fieldError.error == false
+    );
+    console.log(globalError);
+    if (globalError) {
+      setUserInformation({
+        userName: "",
+        cardNumber: "",
+        mm: "",
+        yy: "",
+        cvc: "",
+      });
+    }
+    setError({
+      ...error,
+      userName: {
+        ...error.userName,
+        error: userInformation.userName === "",
+      },
+
+      cardNumber: {
+        ...error.cardNumber,
+        error:
+          userInformation.cardNumber === "" ||
+          isNaN(Number(userInformation.cardNumber)),
+      },
+      mm: {
+        ...error.mm,
+        error: mmOryyError,
+      },
+      cvc: {
+        ...error.cvc,
+        error: userInformation.cvc === "" || isNaN(Number(userInformation.cvc)),
+      },
+    });
   };
+  console.log(error);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserInformation({ ...userInformation, [name]: value });
+    const target = event.target as HTMLInputElement;
   };
-  console.log(userInformation);
+
   return (
     <FormContainer>
       <form onSubmit={handleSubmit}>
