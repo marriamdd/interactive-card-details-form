@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ChangeEvent, FormEvent, useState, useRef } from "react";
+import { ChangeEvent, FormEvent, useState, useRef, useEffect } from "react";
 interface IUserInfo {
   userName: string;
   cardNumber: string;
@@ -39,10 +39,19 @@ export default function FormContent({
       message: "Can’t be blank",
     },
   });
+
   const ok = Object.values(error);
-  if (ok.every((fieldError) => fieldError.error === false)) {
-    console.log("kj");
-  }
+  useEffect(() => {
+    if (ok.every((fieldError) => fieldError.error === false)) {
+      setUserInformation({
+        userName: "",
+        cardNumber: "",
+        mm: "",
+        yy: "",
+        cvc: "",
+      });
+    }
+  }, [error]);
 
   console.log("error values", ok);
   console.log("errors", error);
