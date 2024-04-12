@@ -1,3 +1,4 @@
+import InputMask from "react-input-mask";
 import styled from "styled-components";
 import { ChangeEvent, FormEvent, useRef } from "react";
 interface IUserInfo {
@@ -36,29 +37,28 @@ export default function FormContent({
       validationErrors.userName = "Can’t be blank";
     }
 
-    if (
-      userInformation.cardNumber === "" ||
-      isNaN(Number(userInformation.cardNumber))
-    ) {
+    if (userInformation.cardNumber === "") {
       validationErrors.cardNumber = "Can’t be blank";
     }
 
-    if (userInformation.cvc === "" || isNaN(Number(userInformation.cvc))) {
+    if (isNaN(Number(userInformation.cvc))) {
+      validationErrors.cvc = "Can’t be alphabet";
+    } else if (userInformation.cvc === "") {
       validationErrors.cvc = "Can’t be blank";
     }
 
-    if (
-      userInformation.mm === "" ||
-      userInformation.yy === "" ||
-      isNaN(Number(userInformation.mm)) ||
-      isNaN(Number(userInformation.mm))
-    ) {
+    if (userInformation.mm === "" || userInformation.yy === "") {
       validationErrors.mm = "Can’t be blank";
+    } else if (
+      isNaN(Number(userInformation.mm)) ||
+      isNaN(Number(userInformation.yy))
+    ) {
+      validationErrors.mm = "Can’t be alphabet";
     }
 
     setError(validationErrors);
   };
-
+  console.log(error);
   const cvcref = useRef<HTMLInputElement>(null);
   const yyref = useRef<HTMLInputElement>(null);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,19 +67,6 @@ export default function FormContent({
     const ChangeErrorList: IValidationErrors = { ...error, [name]: "" };
 
     setError(ChangeErrorList);
-    if (name === "cardNumber") {
-      let income = value.replace(/\s/g, "");
-
-      if (income.length === 17) {
-        return;
-      }
-
-      if (income.length % 4 === 0 && income.length < 16) {
-        setUserInformation({ ...userInformation, cardNumber: `${value} ` });
-
-        return;
-      }
-    }
 
     if (name == "mm") {
       let income = value.replace(/\s/g, "");
@@ -123,10 +110,11 @@ export default function FormContent({
           />
           {error.userName && <ErrorMessage>{error.userName}</ErrorMessage>}
         </PersonalInfoContainer>
-        <PersonalInfoContainer error={error.cardNumber}>
+        <PersonalInfoContainer error={error?.cardNumber}>
           <label htmlFor="CardNumber">Card Number</label>
-          <input
-            id="CardNumber"
+          <InputMask
+            mask="9999 9999 9999 9999"
+            maskChar=""
             name="cardNumber"
             type="text"
             placeholder="e.g. 1234 5678 9123 0000"
