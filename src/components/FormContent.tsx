@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ChangeEvent, FormEvent, useState, useRef, useEffect } from "react";
+import { ChangeEvent, FormEvent, useRef } from "react";
 interface IUserInfo {
   userName: string;
   cardNumber: string;
@@ -193,11 +193,19 @@ export default function FormContent({
 
 const FormContainer = styled.div`
   form {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 10rem;
     gap: 1.5rem;
+    width: 375px;
+    @media screen and (min-width: 1440px) {
+      box-sizing: border-box;
+
+      margin-left: 35rem;
+      margin-top: 23rem;
+    }
   }
   .mm_cvcErrorDiv {
     display: flex;
@@ -223,18 +231,6 @@ const FormContainer = styled.div`
   input:hover {
     border: 1px solid var(--Gradient, #6348fe);
   }
-  button {
-    width: 32.7rem;
-    height: 5.3rem;
-    border-radius: 0.8rem;
-    background: var(--Deep-Violet, #21092f);
-    color: var(--White, #fff);
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 4rem;
-    cursor: pointer;
-  }
 `;
 const PersonalInfoContainer = styled.div`
   display: flex;
@@ -242,6 +238,10 @@ const PersonalInfoContainer = styled.div`
   gap: 0.5rem;
   & > input {
     width: 32.7rem;
+    @media screen and (min-width: 1440px) {
+      width: 381px;
+      height: 45px;
+    }
   }
 `;
 
@@ -258,12 +258,21 @@ const AdditionalPersonInfo = styled.div`
     display: flex;
     width: 32.7rem;
     gap: 1rem;
+    @media screen and (min-width: 1440px) {
+      width: 38.1rem;
+    }
     .mm_yy {
       width: 7.2rem;
+      @media screen and (min-width: 1440px) {
+        width: 8rem;
+      }
     }
     #cvc {
       padding-left: 3rem;
       width: 16.4rem;
+      @media screen and (min-width: 1440px) {
+        width: 19.1rem;
+      }
     }
   }
 `;

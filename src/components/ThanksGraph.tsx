@@ -11,11 +11,16 @@ export default function ThanksGraph() {
 }
 const ThanksContainer = styled.div`
   margin-top: 9rem;
-  width: 375px;
+  width: 37.5rem;
   display: flex;
   flex-direction: column;
 
   align-items: center;
+  @media screen and (min-width: 1440px) {
+    width: 40rem;
+    margin-top: 28rem;
+    margin-left: 30rem;
+  }
   h1 {
     color: var(--Deep-Violet, #21092f);
     text-align: center;
