@@ -56,6 +56,7 @@ const HeaderContainer = styled.div`
   background-position: center;
   background-size: cover;
   position: relative;
+
   @media screen and (min-width: 1440px) {
     width: 48.3rem;
     height: 90rem;
