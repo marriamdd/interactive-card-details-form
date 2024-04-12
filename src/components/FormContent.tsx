@@ -65,6 +65,9 @@ export default function FormContent({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
+    const ChangeErrorList: IValidationErrors = { ...error, [name]: "" };
+    console.log(ChangeErrorList);
+    setError(ChangeErrorList);
     if (name === "cardNumber") {
       let income = value.replace(/\s/g, "");
 
@@ -118,6 +121,7 @@ export default function FormContent({
             placeholder="e.g. Jane Appleseed"
             value={userInformation.userName}
             onChange={handleChange}
+            style={{ border: error.userName && "solid 1px red" }}
           />
           {error.userName && <ErrorMessage>{error.userName}</ErrorMessage>}
         </PersonalInfoContainer>
@@ -130,6 +134,7 @@ export default function FormContent({
             placeholder="e.g. 1234 5678 9123 0000"
             value={userInformation.cardNumber}
             onChange={handleChange}
+            style={{ border: error.cardNumber && "solid 1px red" }}
           />
           {error.cardNumber && <ErrorMessage>{error.cardNumber}</ErrorMessage>}
         </PersonalInfoContainer>
@@ -147,6 +152,7 @@ export default function FormContent({
               placeholder="MM"
               value={userInformation.mm}
               onChange={handleChange}
+              style={{ border: error.mm && "solid 1px red" }}
             />
 
             <input
@@ -157,6 +163,7 @@ export default function FormContent({
               value={userInformation.yy}
               onChange={handleChange}
               ref={yyref}
+              style={{ border: error.mm && "solid 1px red" }}
             />
 
             <input
@@ -167,6 +174,7 @@ export default function FormContent({
               value={userInformation.cvc}
               onChange={handleChange}
               ref={cvcref}
+              style={{ border: error.cvc && "solid 1px red" }}
             />
           </div>
           <div className="mm_cvcErrorDiv">
@@ -206,7 +214,8 @@ const FormContainer = styled.div`
   input {
     height: 4rem;
     border-radius: 0.8rem;
-    /* border: 1px solid var(--Light-Grey, #dfdee0); */
+
+    border: 1px solid var(--Light-Grey, #dfdee0);
     background: var(--White, #fff);
     padding-left: 2.5rem;
     cursor: pointer;
@@ -231,11 +240,11 @@ const PersonalInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
   & > input {
     width: 32.7rem;
   }
 `;
+
 const AdditionalPersonInfo = styled.div`
   display: flex;
   flex-direction: column;
