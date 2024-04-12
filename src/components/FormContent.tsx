@@ -8,7 +8,7 @@ interface IUserInfo {
   cvc: string;
 }
 
-interface IValidationErrors {
+export interface IValidationErrors {
   first?: string;
   userName?: string;
   cardNumber?: string;
@@ -22,7 +22,7 @@ export default function FormContent({
   setError,
   error,
 }: {
-  setError: (error: IValidationErrors) => void;
+  setError: React.Dispatch<React.SetStateAction<IValidationErrors>>;
   error: IValidationErrors;
   userInformation: IUserInfo;
   setUserInformation: (information: IUserInfo) => void;
@@ -56,7 +56,6 @@ export default function FormContent({
       validationErrors.mm = "Can’t be blank";
     }
 
-    console.log(validationErrors);
     setError(validationErrors);
   };
 
@@ -66,7 +65,7 @@ export default function FormContent({
     const { name, value } = event.target;
 
     const ChangeErrorList: IValidationErrors = { ...error, [name]: "" };
-    console.log(ChangeErrorList);
+
     setError(ChangeErrorList);
     if (name === "cardNumber") {
       let income = value.replace(/\s/g, "");
@@ -75,7 +74,7 @@ export default function FormContent({
         return;
       }
 
-      if (income.length % 4 === 0) {
+      if (income.length % 4 === 0 && income.length < 16) {
         setUserInformation({ ...userInformation, cardNumber: `${value} ` });
 
         return;
@@ -112,7 +111,7 @@ export default function FormContent({
   return (
     <FormContainer>
       <form onSubmit={handleSubmit}>
-        <PersonalInfoContainer>
+        <PersonalInfoContainer error={error.userName}>
           <label htmlFor="UserName">Cardholder Name</label>
           <input
             name="userName"
@@ -121,11 +120,10 @@ export default function FormContent({
             placeholder="e.g. Jane Appleseed"
             value={userInformation.userName}
             onChange={handleChange}
-            style={{ border: error.userName && "solid 1px red" }}
           />
           {error.userName && <ErrorMessage>{error.userName}</ErrorMessage>}
         </PersonalInfoContainer>
-        <PersonalInfoContainer>
+        <PersonalInfoContainer error={error.cardNumber}>
           <label htmlFor="CardNumber">Card Number</label>
           <input
             id="CardNumber"
@@ -134,11 +132,10 @@ export default function FormContent({
             placeholder="e.g. 1234 5678 9123 0000"
             value={userInformation.cardNumber}
             onChange={handleChange}
-            style={{ border: error.cardNumber && "solid 1px red" }}
           />
           {error.cardNumber && <ErrorMessage>{error.cardNumber}</ErrorMessage>}
         </PersonalInfoContainer>
-        <AdditionalPersonInfo>
+        <AdditionalPersonInfo error={error}>
           <div className="labelDiv">
             <label htmlFor="date">Exp. Date (MM/YY)</label>
             <label htmlFor="cvc">CVC</label>
@@ -152,7 +149,6 @@ export default function FormContent({
               placeholder="MM"
               value={userInformation.mm}
               onChange={handleChange}
-              style={{ border: error.mm && "solid 1px red" }}
             />
 
             <input
@@ -163,7 +159,6 @@ export default function FormContent({
               value={userInformation.yy}
               onChange={handleChange}
               ref={yyref}
-              style={{ border: error.mm && "solid 1px red" }}
             />
 
             <input
@@ -174,7 +169,6 @@ export default function FormContent({
               value={userInformation.cvc}
               onChange={handleChange}
               ref={cvcref}
-              style={{ border: error.cvc && "solid 1px red" }}
             />
           </div>
           <div className="mm_cvcErrorDiv">
@@ -232,11 +226,12 @@ const FormContainer = styled.div`
     border: 1px solid var(--Gradient, #6348fe);
   }
 `;
-const PersonalInfoContainer = styled.div`
+const PersonalInfoContainer = styled.div<{ error: string | undefined }>`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   & > input {
+    border: ${(props) => (props.error ? "1px solid  red" : "")};
     width: 32.7rem;
     @media screen and (min-width: 1440px) {
       width: 381px;
@@ -245,7 +240,7 @@ const PersonalInfoContainer = styled.div`
   }
 `;
 
-const AdditionalPersonInfo = styled.div`
+const AdditionalPersonInfo = styled.div<{ error?: Partial<IValidationErrors> }>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -262,12 +257,14 @@ const AdditionalPersonInfo = styled.div`
       width: 38.1rem;
     }
     .mm_yy {
+      border: ${(props) => (props.error?.mm ? "1px solid red" : "")};
       width: 7.2rem;
       @media screen and (min-width: 1440px) {
         width: 8rem;
       }
     }
     #cvc {
+      border: ${(props) => (props.error?.cvc ? "1px solid red" : "")};
       padding-left: 3rem;
       width: 16.4rem;
       @media screen and (min-width: 1440px) {

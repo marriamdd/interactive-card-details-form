@@ -4,6 +4,7 @@ import ThanksGraph from "./components/ThanksGraph";
 import GlobalStyles from "./globalStyles/GlobalStyles";
 import styled from "styled-components";
 import { useState } from "react";
+import { IValidationErrors } from "./components/FormContent";
 function App() {
   interface IUserInfo {
     userName: string;
@@ -20,8 +21,8 @@ function App() {
     cvc: "",
   });
 
-  const [error, setError] = useState({ first: "first" });
-  console.log(error);
+  const [error, setError] = useState<IValidationErrors>({ first: "first" });
+
   return (
     <>
       <GlobalStyles />
