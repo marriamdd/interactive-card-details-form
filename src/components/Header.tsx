@@ -18,13 +18,9 @@ export default function Header({
         <div className="greyRectangle">
           <p>{userInformation.cvc ? userInformation.cvc : "000"}</p>
         </div>
-        <picture>
-          <source
-            className="img1440"
-            src="/images/Group 15.svg"
-            media="(min-width: 1440px)"
-          />
-        </picture>
+        <div>
+          <img className="img1440" src="/images/Group 15.svg" />
+        </div>
       </BackOfCard>
       <FrontOfCard>
         <img src="public/images/card-logo.svg" alt="card-logo" />
@@ -53,16 +49,16 @@ export default function Header({
 }
 
 const HeaderContainer = styled.div`
-  width: 375px;
-  height: 240px;
+  width: 37.5rem;
+  height: 24rem;
   background-image: url(/images/bg-main-mobile.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   position: relative;
   @media screen and (min-width: 1440px) {
-    width: 483px;
-    height: 900px;
+    width: 48.3rem;
+    height: 90rem;
   }
 `;
 const BackOfCard = styled.div`
@@ -70,9 +66,9 @@ const BackOfCard = styled.div`
   flex-direction: column;
   gap: 2rem;
   align-items: center;
-  width: 286px;
-  height: 157px;
-  border-radius: 6px;
+  width: 28.6rem;
+  height: 15.7rem;
+  border-radius: 0.6rem;
   background: linear-gradient(169deg, #fff 5%, #d2d3d9 91.69%);
 
   position: absolute;
@@ -84,19 +80,25 @@ const BackOfCard = styled.div`
     left: 25rem;
     width: 44.7rem;
     height: 24.5rem;
-    background-image: url("public/images/Group 15.svg");
+
     background-color: linear-gradient(169deg, #fff 5%, #d2d3d9 91.69%);
     background-position: bottom;
     background-repeat: no-repeat;
+    position: relative;
+    .img1440 {
+      position: absolute;
+      bottom: 4rem;
+      left: 13rem;
+    }
   }
   .blackRectangle {
     margin-top: 2rem;
-    width: 286px;
+    width: 28.6rem;
     height: 34.604px;
     background: #2f2f2f;
     @media screen and (min-width: 1440px) {
-      width: 447px;
-      height: 54px;
+      width: 44.7rem;
+      height: 5.4rem;
     }
   }
   .greyRectangle {
@@ -105,8 +107,8 @@ const BackOfCard = styled.div`
     background: #adb5be;
     border-radius: 0.7rem;
     @media screen and (min-width: 1440px) {
-      width: 361px;
-      height: 38px;
+      width: 36.1rem;
+      height: 3.8rem;
     }
     & > p {
       text-align: right;
@@ -118,8 +120,8 @@ const BackOfCard = styled.div`
       text-transform: uppercase;
 
       @media screen and (min-width: 1440px) {
-        font-size: 14px;
-        letter-spacing: 2px;
+        font-size: 1.4rem;
+        letter-spacing: 0.2rem;
         padding-right: 1.5rem;
       }
     }
@@ -139,32 +141,32 @@ const FrontOfCard = styled.div`
   background-repeat: no-repeat;
   @media screen and (min-width: 1440px) {
     top: 13rem;
-    left: 18rem;
+    left: 17rem;
     width: 44.7rem;
     height: 24.5rem;
   }
 
   & > img {
-    width: 54px;
-    height: 30px;
+    width: 5.4rem;
+    height: 3rem;
     margin-top: 2rem;
     margin-left: 1.3rem;
     @media screen and (min-width: 1440px) {
-      width: 84px;
-      height: 47px;
-      /* margin-top: 2.5rem; */
+      width: 8.4rem;
+      height: 4.7rem;
+
       margin-left: 4rem;
     }
   }
   & > div h2 {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 500;
     padding-top: 1.5rem;
     padding-inline: 2rem;
     letter-spacing: 2.2px;
 
     @media screen and (min-width: 1440px) {
-      font-size: 28px;
+      font-size: 2.8rem;
       font-style: normal;
       padding-inline: 4.5rem;
       letter-spacing: 3.422px;
@@ -179,7 +181,7 @@ const FrontOfCard = styled.div`
       padding-top: 2rem;
     }
     span {
-      font-size: 9px;
+      font-size: 0.9rem;
       font-weight: 500;
       letter-spacing: 1.286px;
       text-transform: uppercase;

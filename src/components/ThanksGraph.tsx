@@ -24,7 +24,7 @@ const ThanksContainer = styled.div`
   h1 {
     color: var(--Deep-Violet, #21092f);
     text-align: center;
-    font-size: 28px;
+    font-size: 2.8rem;
 
     font-weight: 500;
 
@@ -34,7 +34,7 @@ const ThanksContainer = styled.div`
     color: var(--Purplish-Grey, #8f8694);
     text-align: center;
 
-    font-size: 18px;
+    font-size: 1.8rem;
 
     font-weight: 500;
   }

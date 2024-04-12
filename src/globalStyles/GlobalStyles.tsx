@@ -30,8 +30,8 @@ const GlobalStyles = createGlobalStyle`
     margin-bottom: 4rem;
     cursor: pointer;
     @media screen and (min-width: 1440px) {
-      width: 381px;
-      height: 53px;
+      width: 38.1rem;
+      height: 5.1rem;
     }
   
   }
