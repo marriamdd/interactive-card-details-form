@@ -23,7 +23,7 @@ export default function Header({
         </div>
       </BackOfCard>
       <FrontOfCard>
-        <img src="public/images/card-logo.svg" alt="card-logo" />
+        <img src="/images/card-logo.svg" alt="card-logo" />
         <div>
           <h2>
             {!userInformation.cardNumber
