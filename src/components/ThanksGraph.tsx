@@ -2,7 +2,7 @@ import styled from "styled-components";
 export default function ThanksGraph() {
   return (
     <ThanksContainer>
-      <img src="public/images/icon-complete.svg" alt="icon-complete" />
+      <img src="/images/icon-complete.svg" alt="icon-complete" />
       <h1>THANK YOU!</h1>
       <p>We’ve added your card details</p>
       <button>Continue</button>
